@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 @RestController
 public class ConsumerRemoteController {
 	@Autowired
     RestTemplate restTemplate;
     
+	@HystrixCommand(fallbackMethod = "testConsumerError")
     @RequestMapping(value="/ribbon-consumer-remote",method=RequestMethod.GET)
     public String helloConsumer() {
     	String username="admin";
@@ -34,4 +37,12 @@ public class ConsumerRemoteController {
         headers.set("authorization", authHeader);
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(null, headers),String.class).getBody();*/
     }
+	
+	//这个方法与helloConsumer方法参数和返回值应该是一样的
+	public String testConsumerError(){
+		return "服务不可用！";
+	}
+
+	
+	
 }
