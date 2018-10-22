@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableCircuitBreaker
 @EnableHystrix
 @EnableHystrixDashboard
-@EnableFeignClients
 public class RunApplicationClient {
 
 	@Bean
